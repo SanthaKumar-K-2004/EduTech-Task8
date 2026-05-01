@@ -1,4 +1,4 @@
-# Product API - RESTful CRUD Operations
+# EduTech-Task8 - RESTful API with CRUD Operations
 
 A complete RESTful API built with Node.js and Express for managing products with full CRUD (Create, Read, Update, Delete) operations.
 
@@ -170,15 +170,6 @@ The API is now running and ready to accept requests!
 }
 ```
 
-**Error Response:** 404 Not Found
-```json
-{
-  "success": false,
-  "message": "Product with ID 999 not found",
-  "data": null
-}
-```
-
 ---
 
 ### 3. Create New Product
@@ -197,15 +188,6 @@ The API is now running and ready to accept requests!
 }
 ```
 
-**Required Fields:**
-- `name` - Product name (string)
-- `price` - Product price (number)
-
-**Optional Fields:**
-- `description` - Product description (string)
-- `stock` - Available quantity (number, default: 0)
-- `category` - Product category (string, default: "Uncategorized")
-
 **Response:** 201 Created
 ```json
 {
@@ -214,21 +196,10 @@ The API is now running and ready to accept requests!
   "data": {
     "id": 6,
     "name": "Wireless Headphones",
-    "description": "Noise-cancelling Bluetooth headphones",
     "price": 149.99,
     "stock": 25,
-    "category": "Electronics",
-    "createdAt": "2024-05-01T10:30:00.000Z"
+    "category": "Electronics"
   }
-}
-```
-
-**Error Response:** 400 Bad Request
-```json
-{
-  "success": false,
-  "message": "Name and price are required fields",
-  "data": null
 }
 ```
 
@@ -237,21 +208,7 @@ The API is now running and ready to accept requests!
 ### 4. Update Product (Full - PUT)
 **Endpoint:** `PUT /api/products/:id`
 
-**Description:** Replace entire product (all fields must be provided)
-
-**Path Parameters:**
-- `id` (required) - Product ID
-
-**Request Body:**
-```json
-{
-  "name": "Updated Laptop",
-  "description": "Ultra-powerful laptop",
-  "price": 1299.99,
-  "stock": 8,
-  "category": "Premium Electronics"
-}
-```
+**Description:** Replace entire product
 
 **Response:** 200 OK
 ```json
@@ -261,11 +218,7 @@ The API is now running and ready to accept requests!
   "data": {
     "id": 1,
     "name": "Updated Laptop",
-    "description": "Ultra-powerful laptop",
-    "price": 1299.99,
-    "stock": 8,
-    "category": "Premium Electronics",
-    "updatedAt": "2024-05-01T10:35:00.000Z"
+    "price": 1299.99
   }
 }
 ```
@@ -275,18 +228,7 @@ The API is now running and ready to accept requests!
 ### 5. Update Product (Partial - PATCH)
 **Endpoint:** `PATCH /api/products/:id`
 
-**Description:** Update only specified fields (partial update)
-
-**Path Parameters:**
-- `id` (required) - Product ID
-
-**Request Body:**
-```json
-{
-  "price": 899.99,
-  "stock": 12
-}
-```
+**Description:** Update only specified fields
 
 **Response:** 200 OK
 ```json
@@ -295,12 +237,7 @@ The API is now running and ready to accept requests!
   "message": "Product partially updated successfully",
   "data": {
     "id": 2,
-    "name": "Mouse",
-    "description": "Wireless mouse",
-    "price": 899.99,
-    "stock": 12,
-    "category": "Accessories",
-    "updatedAt": "2024-05-01T10:40:00.000Z"
+    "price": 899.99
   }
 }
 ```
@@ -312,9 +249,6 @@ The API is now running and ready to accept requests!
 
 **Description:** Delete a product by ID
 
-**Path Parameters:**
-- `id` (required) - Product ID
-
 **Response:** 200 OK
 ```json
 {
@@ -322,21 +256,8 @@ The API is now running and ready to accept requests!
   "message": "Product deleted successfully",
   "data": {
     "id": 5,
-    "name": "USB Cable",
-    "description": "High-speed USB-C cable",
-    "price": 9.99,
-    "stock": 100,
-    "category": "Accessories"
+    "name": "USB Cable"
   }
-}
-```
-
-**Error Response:** 404 Not Found
-```json
-{
-  "success": false,
-  "message": "Product with ID 999 not found",
-  "data": null
 }
 ```
 
@@ -386,13 +307,7 @@ The API is now running and ready to accept requests!
 ```bash
 curl -X POST http://localhost:5000/api/products \
   -H "Content-Type: application/json" \
-  -d '{
-    "name": "Smartphone",
-    "description": "Latest Android phone",
-    "price": 599.99,
-    "stock": 50,
-    "category": "Electronics"
-  }'
+  -d '{"name":"Smartphone","price":599.99,"stock":50,"category":"Electronics"}'
 ```
 
 ### Example 2: Get Products by Category
@@ -409,9 +324,7 @@ curl http://localhost:5000/api/products?minPrice=100&maxPrice=500
 ```bash
 curl -X PATCH http://localhost:5000/api/products/1 \
   -H "Content-Type: application/json" \
-  -d '{
-    "price": 899.99
-  }'
+  -d '{"price":899.99}'
 ```
 
 ### Example 5: Delete a Product
@@ -430,13 +343,7 @@ A complete Postman collection is included: **`Product_API_Postman_Collection.jso
 1. **Open Postman**
 2. **Click:** File → Import
 3. **Select:** `Product_API_Postman_Collection.json`
-4. **Collection loaded** with organized endpoints:
-   - Health Check
-   - Read Operations (GET)
-   - Create Operations (POST)
-   - Update Operations (PUT/PATCH)
-   - Delete Operations (DELETE)
-   - Complete CRUD Workflow
+4. **Collection loaded** with organized endpoints
 
 ### Testing in Postman:
 
@@ -444,7 +351,6 @@ A complete Postman collection is included: **`Product_API_Postman_Collection.jso
 2. **Open Postman collection** - Already imported
 3. **Run requests** - Click any request and hit "Send"
 4. **View responses** - See formatted JSON responses
-5. **Follow workflows** - Complete CRUD Workflow folder shows a real scenario
 
 ---
 
@@ -523,20 +429,16 @@ The API validates all inputs and returns appropriate error messages:
 |---|---|---|
 | **Purpose** | Create new resource | Replace entire resource |
 | **HTTP Status** | 201 Created | 200 OK |
-| **Idempotent** | ❌ No (each call creates new resource) | ✅ Yes (same result if called multiple times) |
+| **Idempotent** | ❌ No | ✅ Yes |
 | **Data Replacement** | Creates new entry | Replaces all fields |
-| **Use Case** | `POST /api/products` - Create new | `PUT /api/products/1` - Replace product 1 |
-| **Example** | Create 3 products = 3 new resources | Update same product 3 times = 1 updated resource |
+| **Use Case** | `POST /api/products` | `PUT /api/products/1` |
 
 **Real Example:**
 ```bash
 # POST - Creates NEW product each time
-POST /api/products → id: 6
-POST /api/products → id: 7
-POST /api/products → id: 8 (Three new products!)
+POST /api/products → id: 6, 7, 8 (Three new products!)
 
 # PUT - Replaces existing product
-PUT /api/products/1 → Replaces product 1
 PUT /api/products/1 → Still replaces product 1 (same result)
 ```
 
@@ -548,7 +450,7 @@ PUT /api/products/1 → Still replaces product 1 (same result)
 
 - **When Used:** Only when a resource is successfully created via POST request
 - **Purpose:** Indicates that the request succeeded AND a new resource was created
-- **Response Includes:** The newly created resource with all its data and auto-generated ID
+- **Response Includes:** The newly created resource with auto-generated ID
 - **Key Difference from 200:**
   - **200 OK** - Request succeeded, resource was retrieved/updated
   - **201 Created** - Request succeeded, NEW resource was created
@@ -564,17 +466,10 @@ Content-Type: application/json
   "data": {
     "id": 6,
     "name": "Wireless Headphones",
-    "price": 149.99,
-    ...
+    "price": 149.99
   }
 }
 ```
-
-**Why 201 Matters:**
-- Clients know a resource was created (not just updated)
-- Caching systems handle 201 differently
-- REST API specification recommends this
-- Better API semantics and clarity
 
 ---
 
@@ -582,50 +477,35 @@ Content-Type: application/json
 
 ### Method 1: Using Postman (Easiest)
 1. Import the collection
-2. Click "Complete CRUD Workflow" folder
-3. Run requests in order to see a full example
+2. Click any request and hit "Send"
+3. View formatted JSON responses
 
 ### Method 2: Using cURL
 ```bash
-# Terminal Command Examples
-
-# 1. Get all products
+# Get all products
 curl http://localhost:5000/api/products
 
-# 2. Create a product
+# Create a product
 curl -X POST http://localhost:5000/api/products \
   -H "Content-Type: application/json" \
   -d '{"name":"Test","price":99.99}'
 
-# 3. Get specific product
+# Get specific product
 curl http://localhost:5000/api/products/1
 
-# 4. Update (PATCH)
+# Update (PATCH)
 curl -X PATCH http://localhost:5000/api/products/1 \
   -H "Content-Type: application/json" \
   -d '{"price":799.99}'
 
-# 5. Delete
+# Delete
 curl -X DELETE http://localhost:5000/api/products/1
 ```
 
-### Method 3: Using JavaScript/Node.js
-```javascript
-// Example: Fetch API in Node.js
-const baseURL = 'http://localhost:5000/api';
-
-// Create product
-fetch(`${baseURL}/products`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    name: 'New Product',
-    price: 49.99
-  })
-})
-.then(res => res.json())
-.then(data => console.log(data));
-```
+### Method 3: Using Browser
+1. Visit `http://localhost:5000/api/health`
+2. Visit `http://localhost:5000/api/products`
+3. View JSON responses
 
 ---
 
@@ -635,7 +515,8 @@ Task 8/
 ├── server.js                              # Main API server
 ├── package.json                           # Node dependencies
 ├── Product_API_Postman_Collection.json   # Postman collection
-└── README.md                              # This file
+├── README.md                              # This file
+└── .gitignore                             # Git configuration
 ```
 
 ---
@@ -665,20 +546,6 @@ Task 8/
 6. **API Testing** - Using Postman and cURL
 7. **Code Organization** - Clean, maintainable Express.js code
 8. **Documentation** - Professional API documentation
-
----
-
-## 🎯 Next Steps (Advanced)
-
-To extend this API, you could:
-- Add a real database (MongoDB, PostgreSQL)
-- Implement authentication (JWT tokens)
-- Add pagination for large datasets
-- Implement rate limiting
-- Add file upload functionality
-- Create API versioning (v1, v2)
-- Add comprehensive logging
-- Deploy to cloud (Heroku, AWS, Azure)
 
 ---
 
@@ -728,7 +595,5 @@ MIT License - Free to use for educational purposes
 
 **Created:** May 1, 2026  
 **Purpose:** Edutech Internship Task 8 - RESTful API Development  
-**Status:** ✅ Complete and Production Ready
-
-#   E d u T e c h - T a s k 8  
- 
+**Status:** ✅ Complete and Production Ready  
+**Repository:** [EduTech-Task8](https://github.com/SanthaKumar-K-2004/EduTech-Task8)
