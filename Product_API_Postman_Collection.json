@@ -1,0 +1,471 @@
+{
+  "info": {
+    "_postman_id": "product-api-collection",
+    "name": "Product API - CRUD Operations",
+    "description": "Complete CRUD API for Product Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "noauth"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "health"]
+        },
+        "description": "Check if API is running"
+      },
+      "response": []
+    },
+    {
+      "name": "Read Operations",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products"]
+            },
+            "description": "Retrieve all products from the database"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Products - Filter by Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/products?category=Electronics",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "Electronics"
+                }
+              ]
+            },
+            "description": "Get products filtered by category"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Products - Filter by Price Range",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/products?minPrice=50&maxPrice=500",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products"],
+              "query": [
+                {
+                  "key": "minPrice",
+                  "value": "50"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "500"
+                }
+              ]
+            },
+            "description": "Get products within a price range"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/products/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products", "1"]
+            },
+            "description": "Retrieve a specific product by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Non-existent Product (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/products/999",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products", "999"]
+            },
+            "description": "Try to retrieve a product that doesn't exist (returns 404)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Create Operations",
+      "item": [
+        {
+          "name": "Create New Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Wireless Headphones\",\n  \"description\": \"Noise-cancelling Bluetooth headphones\",\n  \"price\": 149.99,\n  \"stock\": 25,\n  \"category\": \"Electronics\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products"]
+            },
+            "description": "Create a new product (returns 201 Created)"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Product - Minimal Fields",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Budget Phone\",\n  \"price\": 199.99\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products"]
+            },
+            "description": "Create a product with only required fields"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Product - Invalid Data (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Invalid Product\",\n  \"price\": -50\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products"]
+            },
+            "description": "Try to create a product with invalid data (negative price)"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Product - Missing Required Fields (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"No name or price\",\n  \"stock\": 10\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products"]
+            },
+            "description": "Try to create a product without required fields (returns 400)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update Operations",
+      "item": [
+        {
+          "name": "Update Product - PUT (Full Replace)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Laptop\",\n  \"description\": \"Ultra-powerful laptop with RTX GPU\",\n  \"price\": 1299.99,\n  \"stock\": 8,\n  \"category\": \"Premium Electronics\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products", "1"]
+            },
+            "description": "Update entire product (PUT replaces all fields)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product - PATCH (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 899.99,\n  \"stock\": 12\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products/2",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products", "2"]
+            },
+            "description": "Partially update product - only specified fields are changed (PATCH)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Non-existent Product (404)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ghost Product\",\n  \"price\": 99.99,\n  \"stock\": 0\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products/999",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products", "999"]
+            },
+            "description": "Try to update a product that doesn't exist (returns 404)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Delete Operations",
+      "item": [
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/products/5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products", "5"]
+            },
+            "description": "Delete a product by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Non-existent Product (404)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/products/999",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products", "999"]
+            },
+            "description": "Try to delete a product that doesn't exist (returns 404)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Complete CRUD Workflow",
+      "item": [
+        {
+          "name": "1. Get All Products (Before)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2. Create New Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Smart Watch\",\n  \"description\": \"Fitness tracking smartwatch\",\n  \"price\": 299.99,\n  \"stock\": 45,\n  \"category\": \"Electronics\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3. Read Created Product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/products/6",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products", "6"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4. Update Product (PATCH)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 249.99,\n  \"stock\": 50\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products/6",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products", "6"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5. Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/products/6",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products", "6"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6. Get All Products (After)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "products"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000"
+    }
+  ]
+}
